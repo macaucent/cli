@@ -66,7 +66,7 @@ export const run = async () => {
         - volume mount temp directory between host and container, inline script file is created in temp directory
         */
         let command: string = `run --workdir ${process.env.GITHUB_WORKSPACE} -v ${process.env.GITHUB_WORKSPACE}:${process.env.GITHUB_WORKSPACE} `;
-        command += ` -v ${process.env.HOME}/.azure:/root/.azure -v ${TEMP_DIRECTORY}:${TEMP_DIRECTORY} `;
+        command += ` -v "${process.env.HOME}/.azure:/root/.azure" -v "${TEMP_DIRECTORY}:${TEMP_DIRECTORY}" `;
         command += ` ${environmentVariables} `;
         command += `--name ${CONTAINER_NAME} `;
         command += ` mcr.microsoft.com/azure-cli:${azcliversion} ${startCommand}`;
