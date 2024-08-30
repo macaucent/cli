@@ -10,8 +10,29 @@ export const TEMP_DIRECTORY: string = process.env.RUNNER_TEMP || os.tmpdir();
 export const createScriptFile = async (inlineScript: string): Promise<string> => {
     const fileName: string = `AZ_CLI_GITHUB_ACTION_${getCurrentTime().toString()}.sh`;
     const filePath: string = path.join(TEMP_DIRECTORY, fileName);
-    fs.writeFileSync(filePath, `${inlineScript}`);
-    await giveExecutablePermissionsToFile(filePath);
+    try {
+        fs.writeFileSync(filePath, `${inlineScript}`);
+        console.log(`Script file created at ${filePath}`);
+    }
+    catch (err) {
+        throw new Error(`Unable to write script to file. Error: ${err}`);
+    }
+    if (fs.existsSync(filePath))
+        console.log(`The file: '${filePath}' exists.`);
+    try {
+        fs.accessSync(filePath);
+        console.log(`Access to the script file is available.`);
+    }
+    catch (err) {
+        throw new Error(`Unable to access the script file. Error: ${err}`);
+    }
+    try {
+        await giveExecutablePermissionsToFile(filePath);
+        console.log(`Executable permissions given to the script file.`);
+    }
+    catch (err) {
+        throw new Error(`Unable to give executable permissions to the script file. Error: ${err}`);
+    }
     return fileName;
 }
 
