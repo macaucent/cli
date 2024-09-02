@@ -50,7 +50,6 @@ export async function main() {
             throw new Error('Please enter a valid script.')
         }
         inlineScript = ` set -e >&2; echo '${START_SCRIPT_EXECUTION_MARKER}' >&2; ${inlineScript}`;
-        scriptFileName = await createScriptFile(inlineScript);
 
         /*
         For the docker run command, we are doing the following
@@ -64,6 +63,7 @@ export async function main() {
             "-v", `${process.env.HOME}/.azure:/root/.azure`,
             "-v", `${TEMP_DIRECTORY}:${TEMP_DIRECTORY}`
         ];
+        scriptFileName = await createScriptFile(inlineScript);
         for (let key in process.env) {
             if (!checkIfEnvironmentVariableIsOmitted(key) && process.env[key]) {
                 args.push("-e", `${key}=${process.env[key]}`);
