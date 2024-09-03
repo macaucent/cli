@@ -83,10 +83,11 @@ export async function main() {
     }
     finally {
         // clean up
-        const scriptFilePath: string = path.join(TEMP_DIRECTORY, scriptFileName);
-        await deleteFile(scriptFilePath);
-        console.log("cleaning up container...");
-        await executeDockerCommand(["rm", "--force", CONTAINER_NAME], true);
+        // const scriptFilePath: string = path.join(TEMP_DIRECTORY, scriptFileName);
+        // await deleteFile(scriptFilePath);
+        // console.log("cleaning up container...");
+        // await executeDockerCommand(["rm", "--force", CONTAINER_NAME], true);
+        console.log("Skip cleaning up container...");
     }
 };
 
